@@ -1,15 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Coursera - R PRogramming Week 3 | Programming Assignment 2
+## Student: Deon Engelbrecht
 
-## Write a short comment describing this function
+## The function makeCacheMatrix gets passed a matrix as input parameter 
+## and then stores the matrix and the solve value. Function makeCacheMatrix 
+## returns a list with accessor fuctions. The function cacheSolve receive 
+## the object returned from function makeCacheMatrix as input parameter and 
+## return the invers of the matrix set in function makeCacheMatrix.
 
-makeCacheMatrix <- function(x = matrix()) {
+## Function makeCacheMatrix takes matrix as input, stores the solve value and returns a list with accessor functions 
 
+makeCacheMatrix <- function(x = matrix()) 
+{
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) m <<- solve
+  getsolve <- function() m
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
 }
 
-
-## Write a short comment describing this function
+## Function cacheSolve takes list from makeCacheMatrix as input and returns the solve value sored.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  m <- x$getsolve()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setsolve(m)
+  m
 }
